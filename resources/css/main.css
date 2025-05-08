@@ -1,0 +1,23 @@
+.page {
+    display: flex;
+    flex-direction: row;
+}
+
+.contenido {
+    margin-left: 15%;
+    width: 85%;
+    padding: 20px;
+}
+/* -------------------------------- */
+
+.card {
+    min-width: 800px;
+    margin: auto;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.scroll-form {
+    max-height: 450px;
+    padding-right: 10px;
+}

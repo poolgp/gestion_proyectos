@@ -1,0 +1,40 @@
+@import "/node_modules/@fortawesome/fontawesome-free/css/all.min.css";
+
+.sidebar,
+#sidebar-container {
+    width: 15%;
+    height: 100vh;
+    background-color: #003366;
+    color: #ffffff;
+    padding: 0;
+    position: fixed;
+    top: 100px;
+    left: 0;
+}
+
+#sidebar-container .list-group a {
+    background-color: #003366;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+#sidebar-container .list-group a:hover {
+    background-color: #004080;
+}
+
+.iconoDiv {
+    height: 50px;
+    width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-text {
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+i {
+    font-size: 22px;
+}
