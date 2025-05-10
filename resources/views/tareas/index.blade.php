@@ -5,7 +5,8 @@
 @section('content')
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2><i class="fas fa-folder-open"></i> Gestión de Tareas: Nombre del Proyecto</h2>
+            {{-- <h2><i class="fas fa-folder-open"></i> Gestión de Tareas: {{ $proyecto_nombre }}</h2> --}}
+            <h2><i class="fas fa-folder-open"></i> Gestión de Tareas: {{ $proyecto->nombre_p }}</h2>
 
             <a href="{{ route('tarea.create', ['proyecto_id' => $proyecto->proyecto_id]) }}" class="btn btn-success">
                 Crear Tarea

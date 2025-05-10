@@ -15,11 +15,13 @@ class TareaController extends Controller
 
     public function index($id_proyecto)
     {
+        // $proyecto = Proyecto::all();
         $proyecto = Proyecto::findOrFail($id_proyecto);
         $tareas = Tarea::where('proyecto_id', $id_proyecto)
             ->with('usuario')
             ->get();
 
+        // return view('tareas.index', compact('proyecto', 'proyecto_id', 'proyecto_nombre', 'tareas'));
         return view('tareas.index', compact('proyecto', 'tareas'));
     }
 
