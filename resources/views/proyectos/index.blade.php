@@ -41,7 +41,7 @@
                                 <i class="fa-solid fa-list-check"></i>
                             </a>
                         </td> --}}
-                        <td class="align-middle" title="Ver tareas">
+                        <td class="align-middle" title="Ver tareas.">
                             <a href="{{ route('proyecto.tareas.index', ['proyecto' => $proyecto->proyecto_id]) }}">
                                 <i class="fa-solid fa-list-check"></i>
                             </a>

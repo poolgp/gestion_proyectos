@@ -25,9 +25,11 @@ Route::middleware(['auth'])->group(function () {
 Route::resource('proyecto', ProyectoController::class);
 Route::resource('tarea', TareaController::class);
 Route::get('proyecto/{proyecto}/tareas', [TareaController::class, 'index'])->name('proyecto.tareas.index');
-Route::get('/tarea/create', [TareaController::class, 'create'])->name('tarea.create');
+//Route::get('/tarea/create', [TareaController::class, 'create'])->name('tarea.create');
 Route::post('/tarea', [TareaController::class, 'store'])->name('tarea.store');
 
 Route::get('/tareas/{id_proyecto}', [TareaController::class, 'index'])->name('tarea.index');
 Route::post('/tareas', [TareaController::class, 'store'])->name('tarea.store');
-Route::get('/tareas/create', [TareaController::class, 'create'])->name('tarea.create');
+//Route::get('/tareas/create', [TareaController::class, 'create'])->name('tarea.create');
+
+

@@ -18,7 +18,7 @@ class TareaController extends Controller
     public function index($id_proyecto)
     {
         $proyecto = Proyecto::findOrFail($id_proyecto);
-        $nombreDelProyecto = $proyecto->nombre_p;
+        $nombreDelProyecto=$proyecto->nombre_p;
         //echo $nombreDelProyecto;
         $tareas = Tarea::where('proyecto_id', $id_proyecto)
             ->with('usuario')
@@ -83,17 +83,20 @@ class TareaController extends Controller
         }*/
 
         //Recuperar los datos del formulario
-        $proyectoId = $request->input('proyecto_id');
-        $usuarioId = $request->input('usuario_id');
-        $titulo = $request->input('titulo');
-        $estadoId = DB::table('estados')->where('nombre_e', $request->input('estado'))->value('estado_id');
+        $proyectoId=$request->input('proyecto_id');
+        $usuarioId=$request->input('usuario_id');
+        $titulo=$request->input('titulo');
+        $estadoId=DB::table('estados')->where('nombre_e', $request->input('estado'))->value('estado_id');
         $prioridad_id = DB::table('prioridades')->where('nombre_p', $request->input('prioridad'))->value('prioridad_id');
-        if ($request->has('FechaLimite')) {
+        if($request->has('FechaLimite'))
+        {
             $fechaLimite = $request->input('FechaLimite');
-        } else {
+        }
+        else
+        {
             $fechaLimite = null;
         }
-
+        
         //Crear un objeto de la clase que representa una consulta a la tabla
         $tarea = new Tarea();
         //Asignar los valores del formulario a su respectivo campo
@@ -104,17 +107,20 @@ class TareaController extends Controller
         $tarea->prioridad_id = $prioridad_id;
         $tarea->FechaLimite = $fechaLimite;
 
-        try {
+        try
+        {
             //Hacer el insert en la tabla
             $tarea->save();
             $proyecto = Proyecto::findOrFail($proyectoId);
             $tareas = Tarea::where('proyecto_id', $proyectoId)->with('usuario')->get();
-            $request->session()->flash("mensaje", "Registro ingresado correctamente.");
-            $response = view('tareas.index', compact('proyecto', 'tareas'));
-        } catch (QueryException $ex) {
-            $mensaje = Utilidad::errorMessage($ex);
-            $request->session()->flash("error", $mensaje);
-            $response = redirect()->action([TareaController::class, "create"])->withInput();
+            $request->session()->flash("mensaje","Registro ingresado correctamente.");
+            $response=view('tareas.index',compact('proyecto','tareas'));
+        }
+        catch(QueryException $ex)
+        {
+            $mensaje=Utilidad::errorMessage($ex);
+            $request->session()->flash("error",$mensaje);
+            $response=redirect()->action([TareaController::class,"create"])->withInput();
             /*echo $ex->getMessage();
             echo "<br>";
             echo $ex->getCode();
@@ -125,8 +131,10 @@ class TareaController extends Controller
             echo "<br>";
             echo $ex->getTraceAsString();*/
         }
+        
 
         return $response;
+        
     }
 
     /**

@@ -3,8 +3,8 @@
 @section('title', 'Gestión de Tareas')
 
 @section('content')
-    {{-- <form action="{{ route('tarea.store') }}" method="POST"> --}}
-    <form action="{{ action([App\Http\Controllers\TareaController::class, 'store']) }}" method="POST">
+    {{--<form action="{{ route('tarea.store') }}" method="POST">--}}
+    <form action="{{action([App\Http\Controllers\TareaController::class,'store'])}}" method="POST">
         @csrf
         <input type="hidden" name="proyecto_id" value="{{ $proyecto_id }}">
 
