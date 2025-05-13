@@ -9,19 +9,21 @@ use App\Models\Proyecto;
 use App\Models\Prioridad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Clases\Utilidad;
+use Illuminate\Database\QueryException;
 
 class TareaController extends Controller
 {
 
     public function index($id_proyecto)
     {
-        // $proyecto = Proyecto::all();
         $proyecto = Proyecto::findOrFail($id_proyecto);
+        $nombreDelProyecto = $proyecto->nombre_p;
+        //echo $nombreDelProyecto;
         $tareas = Tarea::where('proyecto_id', $id_proyecto)
             ->with('usuario')
             ->get();
 
-        // return view('tareas.index', compact('proyecto', 'proyecto_id', 'proyecto_nombre', 'tareas'));
         return view('tareas.index', compact('proyecto', 'tareas'));
     }
 
@@ -39,7 +41,7 @@ class TareaController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        /*$request->validate([
             'proyecto_id' => 'required|exists:proyectos,proyecto_id',
             'titulo' => 'required|string|max:100',
             'estado' => 'required|string|exists:estados,nombre_e',
@@ -78,7 +80,53 @@ class TareaController extends Controller
             DB::rollBack();
 
             return redirect()->back()->with('error', 'Error al crear la tarea: ' . $th->getMessage());
+        }*/
+
+        //Recuperar los datos del formulario
+        $proyectoId = $request->input('proyecto_id');
+        $usuarioId = $request->input('usuario_id');
+        $titulo = $request->input('titulo');
+        $estadoId = DB::table('estados')->where('nombre_e', $request->input('estado'))->value('estado_id');
+        $prioridad_id = DB::table('prioridades')->where('nombre_p', $request->input('prioridad'))->value('prioridad_id');
+        if ($request->has('FechaLimite')) {
+            $fechaLimite = $request->input('FechaLimite');
+        } else {
+            $fechaLimite = null;
         }
+
+        //Crear un objeto de la clase que representa una consulta a la tabla
+        $tarea = new Tarea();
+        //Asignar los valores del formulario a su respectivo campo
+        $tarea->proyecto_id = $proyectoId;
+        $tarea->usuario_id = $usuarioId;
+        $tarea->titulo = $titulo;
+        $tarea->estado_id = $estadoId;
+        $tarea->prioridad_id = $prioridad_id;
+        $tarea->FechaLimite = $fechaLimite;
+
+        try {
+            //Hacer el insert en la tabla
+            $tarea->save();
+            $proyecto = Proyecto::findOrFail($proyectoId);
+            $tareas = Tarea::where('proyecto_id', $proyectoId)->with('usuario')->get();
+            $request->session()->flash("mensaje", "Registro ingresado correctamente.");
+            $response = view('tareas.index', compact('proyecto', 'tareas'));
+        } catch (QueryException $ex) {
+            $mensaje = Utilidad::errorMessage($ex);
+            $request->session()->flash("error", $mensaje);
+            $response = redirect()->action([TareaController::class, "create"])->withInput();
+            /*echo $ex->getMessage();
+            echo "<br>";
+            echo $ex->getCode();
+            echo "<br>";
+            echo $ex->getLine();
+            echo "<br>";
+            echo $ex->getFile();
+            echo "<br>";
+            echo $ex->getTraceAsString();*/
+        }
+
+        return $response;
     }
 
     /**
