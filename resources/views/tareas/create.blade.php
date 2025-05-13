@@ -3,7 +3,8 @@
 @section('title', 'Gestión de Tareas')
 
 @section('content')
-    <form action="{{ route('tarea.store') }}" method="POST">
+    {{-- <form action="{{ route('tarea.store') }}" method="POST"> --}}
+    <form action="{{ action([App\Http\Controllers\TareaController::class, 'store']) }}" method="POST">
         @csrf
         <input type="hidden" name="proyecto_id" value="{{ $proyecto_id }}">
 
@@ -39,7 +40,7 @@
             <label>Asignar a</label>
             <select name="usuario_id" class="form-control">
                 @foreach ($usuarios as $usuario)
-                    <option value="{{ $usuario->id }}">{{ $usuario->nombre_u }}</option>
+                    <option value="{{ $usuario->usuario_id }}">{{ $usuario->nombre_u }}</option>
                 @endforeach
             </select>
         </div>
